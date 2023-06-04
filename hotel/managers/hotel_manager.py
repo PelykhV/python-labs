@@ -46,66 +46,104 @@ class HotelManager:
 
     def __len__(self):
         """
+        Get the number of hotels in the manager.
 
-        :return:
+        Returns:
+        int: The number of hotels.
         """
         return len(self.hotels)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, index):
         """
+        Get the hotel at the specified index.
 
-        :param idx:
-        :return:
+        Parameters:
+        index (int): The index of the hotel.
+
+        Returns:
+        Hotel: The hotel at the specified index.
         """
         return self.hotels[index]
 
     def __iter__(self):
         """
+        Return an iterator over the hotels.
 
-        :return:
+        Returns:
+        iterator: Iterator over the hotels.
         """
         return iter(self.hotels)
 
-    def get_results_of_do_something(self):
+    def get_results_of_method(self, method_name):
         """
+        Get a list of results from calling a specific method on each object in the manager.
 
-        :return:
-        """
-        return [hotel.do_something() for hotel in self.hotels]
+        Parameters:
+        method_name (str): The name of the method to call.
 
-    def get_enumerated_hotels(self):
+        Returns:
+        list: List of results from calling the method on each object.
         """
+        return [getattr(obj, method_name)() for obj in self.hotels if hasattr(obj, method_name)]
 
-        :return:
+    def get_enumerated_objects(self):
         """
-        return list(enumerate(self.hotels))
+        Return a concatenation of the object and its index in the list using enumerate.
 
-    def get_zip_results(self):
+        Returns:
+        list: List of concatenated strings of object and index.
         """
+        return [f"Object at index {index}: {hotel}" for index, hotel in enumerate(self.hotels)]
 
-        :return:
+    def get_zipped_results(self, method_name):
         """
-        return [(hotel, hotel.do_something()) for hotel in self.hotels]
+        Return a concatenation of the object and the result of calling a specific method using zip.
+
+        Parameters:
+        method_name (str): The name of the method to call.
+
+        Returns:
+        list: List of concatenated strings of object and method result.
+        """
+        method_results = self.get_results_of_method(method_name)
+        return [
+            f"Object: {hotel}, Result: {res}"
+            for hotel, res in zip(self.hotels, method_results)
+        ]
 
     def get_attributes_by_type(self, attribute_type):
         """
+        Get attributes of all hotels in the manager by their data type.
 
-        :param attribute_type:
-        :return:
-        """
-        return {key: value for key, value in self.hotels[0].__dict__.items()
-                if isinstance(value, attribute_type)}
+        Parameters:
+        attribute_type (type): The data type of the attributes to retrieve.
 
-    def get_all_any_results(self, hotel_condition):
+        Returns:
+        dict: A dictionary containing attribute names and
+        their corresponding values of the specified type.
         """
+        attributes = {}
+        for hotel in self.hotels:
+            for attr_name, attr_value in hotel.__dict__.items():
+                if isinstance(attr_value, attribute_type):
+                    attributes[attr_name] = attr_value
+        return attributes
 
-        :param hotel_condition:
-        :return:
+    def check_condition(self, condition):
         """
-        return {
-            "all": all(hotel_condition(hotel) for hotel in self.hotels),
-            "any": any(hotel_condition(hotel) for hotel in self.hotels)
-        }
+        Check if all objects in the manager satisfy the given condition.
+
+        Parameters:
+        condition (callable): A callable object that represents the condition to be checked.
+
+        Returns:
+        dict: A dictionary with keys "all" and "any" indicating whether all
+        or any objects satisfy the condition.
+        """
+        all_condition = all(condition(obj) for obj in self.hotels)
+        any_condition = any(condition(obj) for obj in self.hotels)
+
+        return {"all": all_condition, "any": any_condition}
 
 
 if __name__ == "__main__":
@@ -131,19 +169,44 @@ if __name__ == "__main__":
     for hotel_item in hotels_with_pool:
         print(hotel_item)
 
+    results = hotel_manager.get_results_of_method("do_something")
+    print("\nResults of do_something():")
+    for result in results:
+        print(result)
+
+    enumerated_objects = hotel_manager.get_enumerated_objects()
+    print("\nEnumerated objects:")
+    for enumerated_object in enumerated_objects:
+        print(enumerated_object)
+
+    zipped_results = hotel_manager.get_zipped_results("do_something")
+    print("\nZipped results:")
+    for zipped_result in zipped_results:
+        print(zipped_result)
+
+    int_attributes = hotel_manager.get_attributes_by_type(int)
+    print(int_attributes)
+
+    str_attributes = hotel_manager.get_attributes_by_type(str)
+    print(str_attributes)
+
+    bool_attributes = hotel_manager.get_attributes_by_type(bool)
+    print(bool_attributes)
+
+    def check_condition(hotel):
+        """
+
+        :param hotel:
+        :return:
+        """
+        return hotel.rating > 4.0
+
+    result = hotel_manager.check_condition(check_condition)
+    print(result)
+
     print("\nNumber of hotels:", len(hotel_manager))
+    print("First hotel:", hotel_manager[0])
 
-    print("\nEnumerated hotels:")
-    for index, hotel_item in hotel_manager.get_enumerated_hotels():
-        print(index, hotel_item)
-
-    print("\nZip results:")
-    for hotel_item, result in hotel_manager.get_zip_results():
-        print(hotel_item, result)
-
-    print("\nAttributes of type float:")
-    print(hotel_manager.get_attributes_by_type(float))
-
-    print("\nAll and Any results:")
-    condition = lambda hotel: hotel.rating > 3.5
-    print(hotel_manager.get_all_any_results(condition))
+    print("\nAll hotels:")
+    for hotel_item in hotel_manager:
+        print(hotel_item)
