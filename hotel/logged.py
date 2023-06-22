@@ -1,11 +1,28 @@
+"""
+The module containing the decorator.
+"""
 import logging
 
+
 def logged(exception, mode):
+    """
+       Decorator that logs exceptions raised by the decorated function.
+
+       Args:
+           exception: The exception type to catch.
+           mode: The logging mode ("console" or "file").
+
+       Returns:
+           The decorated function.
+
+       """
+
     def decorator(func):
         def wrapper(*args, **kwargs):
+            result = None
             try:
-                return func(*args, **kwargs)
-            except exception as e:
+                result = func(*args, **kwargs)
+            except exception as error:
                 logger = logging.getLogger(__name__)
                 if mode.lower() == "console":
                     console_handler = logging.StreamHandler()
@@ -13,7 +30,8 @@ def logged(exception, mode):
                 elif mode.lower() == "file":
                     file_handler = logging.FileHandler("errors.log")
                     logger.addHandler(file_handler)
-                logger.exception(e)
+                logger.exception(error)
+            return result
 
         return wrapper
 
