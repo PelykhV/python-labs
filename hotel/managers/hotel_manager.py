@@ -112,7 +112,6 @@ if __name__ == "__main__":
     bool_attributes = hotel_manager.get_attributes_by_type(bool)
     print(bool_attributes)
 
-
     def check_condition(hotel):
         """
 
@@ -120,7 +119,6 @@ if __name__ == "__main__":
         :return:
         """
         return hotel.rating > 4.0
-
 
     result = hotel_manager.check_condition(check_condition)
     print(result)
