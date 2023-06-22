@@ -1,6 +1,3 @@
-"""
-This module provides a HotelManager class for managing hotels.
-"""
 from models.motel import Motel
 from models.resort_hotel import ResortHotel
 
@@ -42,7 +39,7 @@ class HotelManager:
         list: List of hotels that have pools.
         """
         return [hotel for hotel in self.hotels if isinstance(hotel, ResortHotel) and (
-                hotel.has_child_pool or hotel.has_adult_pool)]
+            hotel.has_child_pool or hotel.has_adult_pool)]
 
     def __len__(self):
         """
@@ -144,25 +141,3 @@ class HotelManager:
         any_condition = any(condition(obj) for obj in self.hotels)
 
         return {"all": all_condition, "any": any_condition}
-
-
-if __name__ == "__main__":
-    hotel_manager = HotelManager()
-
-    hotel1 = ResortHotel("Ukraine", 260, 0, 4.3, "Resort A", 3, True, False)
-    hotel2 = Motel("Elise", 100, 50, 3.9, "Richards highway", 150, "Kyiv-Lviv")
-    hotel3 = ResortHotel("Monte", 456, 321, 4.5, "Resort B", 2, False, True)
-    hotel4 = Motel("Grand", 80, 10, 2.7, "Pronto highway", 300, "Lviv-Odesa")
-
-    hotel_manager.add_hotel(hotel1)
-    hotel_manager.add_hotel(hotel2)
-    hotel_manager.add_hotel(hotel3)
-    hotel_manager.add_hotel(hotel4)
-
-    print(hotel3.rating)
-    hotel3.update_rating(-3.0)
-    print(hotel3.rating)
-
-    print(hotel2.available_rooms)
-    hotel2.book_room()
-    print(hotel2.available_rooms)
