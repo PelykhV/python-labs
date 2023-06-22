@@ -159,56 +159,10 @@ if __name__ == "__main__":
     hotel_manager.add_hotel(hotel3)
     hotel_manager.add_hotel(hotel4)
 
-    hotels_with_high_rating = hotel_manager.find_hotels_with_rating_greater_than(4.0)
-    print("Hotels with rating > 4.0:")
-    for hotel_item in hotels_with_high_rating:
-        print(hotel_item)
+    print(hotel3.rating)
+    hotel3.update_rating(-3.0)
+    print(hotel3.rating)
 
-    hotels_with_pool = hotel_manager.find_hotels_with_pool()
-    print("\nHotels with pool:")
-    for hotel_item in hotels_with_pool:
-        print(hotel_item)
-
-    results = hotel_manager.get_results_of_method("do_something")
-    print("\nResults of do_something():")
-    for result in results:
-        print(result)
-
-    enumerated_objects = hotel_manager.get_enumerated_objects()
-    print("\nEnumerated objects:")
-    for enumerated_object in enumerated_objects:
-        print(enumerated_object)
-
-    zipped_results = hotel_manager.get_zipped_results("do_something")
-    print("\nZipped results:")
-    for zipped_result in zipped_results:
-        print(zipped_result)
-
-    int_attributes = hotel_manager.get_attributes_by_type(int)
-    print(int_attributes)
-
-    str_attributes = hotel_manager.get_attributes_by_type(str)
-    print(str_attributes)
-
-    bool_attributes = hotel_manager.get_attributes_by_type(bool)
-    print(bool_attributes)
-
-
-    def check_condition(hotel):
-        """
-
-        :param hotel:
-        :return:
-        """
-        return hotel.rating > 4.0
-
-
-    result = hotel_manager.check_condition(check_condition)
-    print(result)
-
-    print("\nNumber of hotels:", len(hotel_manager))
-    print("First hotel:", hotel_manager[0])
-
-    print("\nAll hotels:")
-    for hotel_item in hotel_manager:
-        print(hotel_item)
+    print(hotel2.available_rooms)
+    hotel2.book_room()
+    print(hotel2.available_rooms)
