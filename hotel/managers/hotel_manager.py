@@ -1,5 +1,5 @@
-from models.Motel import Motel
-from models.ResortHotel import ResortHotel
+from models.motel import Motel
+from models.resort_hotel import ResortHotel
 
 
 class HotelManager:
