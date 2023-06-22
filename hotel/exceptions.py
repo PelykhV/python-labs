@@ -1,3 +1,8 @@
+"""
+The module containing the exceptions.
+"""
+
+
 class NegativeValueException(ValueError):
     """
     Exception raised when a field is assigned a negative value.
