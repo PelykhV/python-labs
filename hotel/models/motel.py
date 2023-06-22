@@ -1,14 +1,21 @@
+"""
+The module containing the Motel class is a subclass of the Hotel class representing a motel.
+"""
 from models.hotel import Hotel
 
 
+# pylint: disable=too-few-public-methods
 class Motel(Hotel):
     """
     Represents a motel.
     """
 
-    def __init__(self, name="", total_rooms=0, available_rooms=0, rating=0.0, highway="", kilometer=0, cities=""):
+    # pylint: disable=too-many-arguments
+    def __init__(self, name="", total_rooms=0, available_rooms=0, rating=0.0, highway="",
+                 kilometer=0, cities=""):
         """
         Creates a new instance of a Motel.
+
         Parameters:
         name (str): The name of the motel.
         total_rooms (int): The total number of rooms in the motel.
@@ -23,8 +30,15 @@ class Motel(Hotel):
         self.kilometer = kilometer
         self.cities = cities
 
-    def getLocation(self):
+    def get_location(self):
         """
         Returns the combination of highway name and kilometer as the motel's location.
         """
         return f"{self.highway}, {self.kilometer}km"
+
+    @staticmethod
+    def do_something():
+        """
+        This method do something
+        """
+        return "Resort hotel-specific action"
